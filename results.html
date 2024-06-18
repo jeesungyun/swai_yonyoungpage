@@ -23,25 +23,62 @@
     <link rel="stylesheet" href="assets/css/bootsnav.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/responsive.css">
-
 </head>
+
 <body>
-    <!-- Search Results Section -->
+    <!--header start-->
+    <header id="header-top" class="header-top">
+        <ul>
+            <li>
+                <div class="header-top-left">
+                    <ul>
+                        <li class="select-opt">
+                            <select name="language" id="language">
+                                <option value="default">ENG</option>
+                                <option value="Korean">KOR</option>
+                            </select>
+                        </li>
+                        <li class="select-opt">
+                            <select name="currency" id="currency">
+                                <option value="usd">USD</option>
+                                <option value="krw">KRW</option>
+                            </select>
+                        </li>
+                        <li class="select-opt">
+                            <a href="#"><span class="lnr lnr-magnifier"></span></a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="head-responsive-right pull-right">
+                <div class="header-top-right">
+                    <ul>
+                        <li class="header-top-contact">+82 010-3420-5441</li>
+                        <li class="header-top-contact"><a href="#">sign in</a></li>
+                        <li class="header-top-contact"><a href="#">register</a></li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </header>
+    <!--header end-->
+
     <section id="explore" class="explore">
         <div class="container">
             <div class="section-header">
-                <h2>Explore</h2>
-                <p>Explore New Places and Various Ideas</p>
-            </div>
+                <h2>Search Results</h2>
+                <p>Explore the recommended photography spots</p>
+            </div><!--/.section-header-->
             <div class="explore-content">
-                <div class="row" id="search-results">
-                    <!-- Search results will be inserted here -->
+                <div class="row" id="results">
+                    <!-- Search results will be inserted here by JavaScript -->
                 </div>
             </div>
         </div>
-    </section>
+    </section><!--/.explore-->
+    <!--explore end-->
 
-    <!-- Include all JS files -->
+    <!-- Include all js compiled plugins (below), or include individual files as needed -->
     <script src="assets/js/jquery.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/bootsnav.js"></script>
@@ -49,75 +86,88 @@
     <script src="assets/js/jquery.counterup.min.js"></script>
     <script src="assets/js/waypoints.min.js"></script>
     <script src="assets/js/slick.min.js"></script>
+    <script src="assets/js/jquery.easing.min.js"></script>
     <script src="assets/js/custom.js"></script>
 
     <script>
-        // Function to fetch and display search results
-        function fetchSearchResults() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const category = urlParams.get('category');
-            const location = urlParams.get('location');
+        document.addEventListener('DOMContentLoaded', () => {
+            const resultsContainer = document.getElementById('results');
+            const results = JSON.parse(localStorage.getItem('searchResults'));
 
-            axios.post('http://localhost:8000/search', {
-                category: category,
-                location: location
-            })
-            .then(response => {
-                const results = response.data.results;
-                const resultsContainer = document.getElementById('search-results');
-                resultsContainer.innerHTML = '';
-
+            if (results && results.length) {
                 results.forEach(result => {
-                    const resultItem = `
-                        <div class="col-md-4 col-sm-6">
-                            <div class="single-explore-item">
-                                <div class="single-explore-img">
-                                    <img src="${result.image}" alt="explore image">
-                                    <div class="single-explore-img-info">
-                                        <button onclick="window.location.href='#'">best rated</button>
-                                        <div class="single-explore-image-icon-box">
-                                            <ul>
-                                                <li><div class="single-explore-image-icon"><i class="fa fa-arrows-alt"></i></div></li>
-                                                <li><div class="single-explore-image-icon"><i class="fa fa-bookmark-o"></i></div></li>
-                                            </ul>
+                    const resultElement = document.createElement('div');
+                    resultElement.className = 'col-md-4 col-sm-6';
+                    resultElement.innerHTML = `
+                        <div class="single-explore-item">
+                            <div class="single-explore-img">
+                                <img src="${result.image}" alt="explore image">
+                                <div class="single-explore-img-info">
+                                    <button onclick="window.location.href='#'">best rated</button>
+                                    <div class="single-explore-image-icon-box">
+                                        <ul>
+                                            <li>
+                                                <div class="single-explore-image-icon">
+                                                    <i class="fa fa-arrows-alt"></i>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="single-explore-image-icon">
+                                                    <i class="fa fa-bookmark-o"></i>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="single-explore-txt bg-theme-1">
+                                <h2><a href="#">${result.title}</a></h2>
+                                <p class="explore-rating-price">
+                                    <span class="explore-rating">${result.rating}</span>
+                                    <a href="#"> ${result.reviews} ratings</a> 
+                                    <span class="explore-price-box">
+                                        form
+                                        <span class="explore-price">${result.price}</span>
+                                    </span>
+                                     <a href="#">${result.categories.join(', ')}</a>
+                                </p>
+                                <div class="explore-person">
+                                    <div class="row">
+                                        <div class="col-sm-2">
+                                            <div class="explore-person-img">
+                                                <a href="#">
+                                                    <img src="assets/images/explore/person.png" alt="explore person">
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-10">
+                                            <p>${result.description}</p>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="single-explore-txt bg-theme-1">
-                                    <h2><a href="#">${result.title}</a></h2>
-                                    <p class="explore-rating-price">
-                                        <span class="explore-rating">${result.rating}</span>
-                                        <a href="#"> ${result.reviews} ratings</a>
-                                        <span class="explore-price-box">
-                                            from <span class="explore-price">${result.price}</span>
-                                        </span>
-                                        <a href="#">${result.categories.join(', ')}</a>
-                                    </p>
-                                    <div class="explore-person">
-                                        <div class="row">
-                                            <div class="col-sm-2">
-                                                <div class="explore-person-img">
-                                                    <a href="#"><img src="assets/images/explore/person.png" alt="explore person"></a>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-10">
-                                                <p>${result.description}</p>
+                                <div class="explore-open-close-part">
+                                    <div class="row">
+                                        <div class="col-sm-5">
+                                            <button class="close-btn" onclick="window.location.href='#'">close now</button>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <div class="explore-map-icon">
+                                                <a href="#"><i data-feather="map-pin"></i></a>
+                                                <a href="#"><i data-feather="upload"></i></a>
+                                                <a href="#"><i data-feather="heart"></i></a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>`;
-                    resultsContainer.innerHTML += resultItem;
+                        </div>
+                    `;
+                    resultsContainer.appendChild(resultElement);
                 });
-            })
-            .catch(error => {
-                console.error('There was an error fetching the search results!', error);
-            });
-        }
-
-        // Fetch results when the page loads
-        window.onload = fetchSearchResults;
+            } else {
+                resultsContainer.innerHTML = '<p>No results found.</p>';
+            }
+        });
     </script>
 </body>
 </html>
