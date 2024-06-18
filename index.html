@@ -152,7 +152,6 @@
 		</section><!-- /.top-area-->
 		<!-- top-area End -->
 
-		<!--welcome-hero start -->
 		<section id="home" class="welcome-hero">
 			<div class="container">
 				<div class="welcome-hero-txt">
@@ -165,8 +164,8 @@
 					<div class="welcome-hero-form">
 						<div class="single-welcome-hero-form">
 							<h3>what?</h3>
-							<form action="index.html">
-								<input type="text" placeholder="Ex: nature, sunset, architect, portrait" />
+							<form action="/results.html" method="GET">
+								<input type="text" name="category" placeholder="Ex: nature, sunset, architect, portrait" />
 							</form>
 							<div class="welcome-hero-form-icon">
 								<i class="flaticon-list-with-dots"></i>
@@ -174,8 +173,8 @@
 						</div>
 						<div class="single-welcome-hero-form">
 							<h3>Where?</h3>
-							<form action="index.html">
-								<input type="text" placeholder="Ex: Yonsei University, N seoul tower" />
+							<form action="/results.html" method="GET">
+								<input type="text" name="location" placeholder="Ex: Yonsei University, N seoul tower" />
 							</form>
 							<div class="welcome-hero-form-icon">
 								<i class="flaticon-gps-fixed-indicator"></i>
@@ -183,15 +182,15 @@
 						</div>
 					</div>
 					<div class="welcome-hero-serch">
-						<button class="welcome-hero-btn" onclick="window.location.href='#'">
+						<button class="welcome-hero-btn" type="submit">
 							 search  <i data-feather="search"></i> 
 						</button>
 					</div>
 				</div>
 			</div>
+		</section>
+		
 
-		</section><!--/.welcome-hero-->
-		<!--welcome-hero end -->
 
 		<!--list-topics start -->
 		<section id="list-topics" class="list-topics">
@@ -308,6 +307,7 @@
 		</section><!--/.works-->
 		<!--works end -->
 
+		<!--explore start -->
 		<!--explore start -->
 		<section id="explore" class="explore">
 			<div class="container">
@@ -719,65 +719,42 @@
 
 		</section><!--/.explore-->
 		<!--explore end -->
-
-		\
-		<!--blog start -->
-		<section id="blog" class="blog" >
+		
+		<section id="add-spot" class="subscription">
 			<div class="container">
-				<div class="section-header">
-					<h2>news and articles</h2>
-					<p>Learn various photography tips and informations from other photographers </p>
-				</div><!--/.section-header-->
-				<div class="blog-content">
-					<div class="row">
-						<div class="col-md-4 col-sm-6">
-							<div class="single-blog-item">
-								<div class="single-blog-item-img">
-									<img src="assets/images/blog/b1.jpg" alt="blog image">
-								</div>
-								<div class="single-blog-item-txt">
-									<h2><a href="#">Best place to capture sunset in Seoul</a></h2>
-									<h4>posted <span>by</span> <a href="#">admin</a> April 2024</h4>
-									<p>
-										Seoul's dynamic skyline offers a beautiful backdrop for capturing both the sunrise and sunset.
-									</p>
-								</div>
+				<div class="subscribe-title text-center">
+					<h2>Add New Photography Spot</h2>
+					<p>Share your favorite photography spots with others.</p>
+				</div>
+				<div class="row">
+					<div class="col-sm-12">
+						<form id="addSpotForm" method="post" action="/add_spot">
+							<div class="form-group">
+								<label for="name">Name</label>
+								<input type="text" class="form-control" id="name" name="name" placeholder="Enter name">
 							</div>
-						</div>
-						<div class="col-md-4 col-sm-6">
-							<div class="single-blog-item">
-								<div class="single-blog-item-img">
-									<img src="assets/images/blog/b2.jpg" alt="blog image">
-								</div>
-								<div class="single-blog-item-txt">
-									<h2><a href="#">What is good photography?</a></h2>
-									<h4>posted <span>by</span> <a href="#">js shim</a> Febuary 2023</h4>
-									<p>
-										What defines a good photograph is not just the clarity or composition, but the story it tells and the emotions it evokes.
-									</p>
-								</div>
+							<div class="form-group">
+								<label for="location">Location</label>
+								<input type="text" class="form-control" id="location" name="location" placeholder="Enter location">
 							</div>
-						</div>
-						<div class="col-md-4 col-sm-6">
-							<div class="single-blog-item">
-								<div class="single-blog-item-img">
-									<img src="assets/images/blog/b3.jpg" alt="blog image">
-								</div>
-								<div class="single-blog-item-txt">
-									<h2><a href="#">Useful tips for Street Photography</a></h2>
-									<h4>posted <span>by</span> <a href="#">andy lim</a> March 2024</h4>
-									<p>
-										Street photography captures the pulse of city life, requiring both a keen eye for detail and the ability to seize fleeting moments..
-									</p>
-								</div>
+							<div class="form-group">
+								<label for="category">Category</label>
+								<input type="text" class="form-control" id="category" name="category" placeholder="Enter category">
 							</div>
-						</div>
+							<div class="form-group">
+								<label for="description">Description</label>
+								<input type="text" class="form-control" id="description" name="description" placeholder="Enter description">
+							</div>
+							<div class="form-group">
+								<label for="image_url">Image URL</label>
+								<input type="text" class="form-control" id="image_url" name="image_url" placeholder="Enter image URL">
+							</div>
+							<button type="submit" class="btn btn-primary">Add Spot</button>
+						</form>
 					</div>
 				</div>
-			</div><!--/.container-->
-			
-		</section><!--/.blog-->
-		<!--blog end -->
+			</div>
+		</section><!--/.subscription-->
 
 		<!--subscription strat -->
 		<section id="contact"  class="subscription">
@@ -820,9 +797,6 @@
 			           		<ul class="footer-menu-item">
 			                    <li class="scroll"><a href="#works">how it works</a></li>
 			                    <li class="scroll"><a href="#explore">photo spots</a></li>
-			                    <li class="scroll"><a href="#reviews">profiles</a></li>
-			                    <li class="scroll"><a href="#blog">articles</a></li>
-			                    <li class="scroll"><a href="#contact">contact</a></li>
 			                    <li class=" scroll"><a href="#contact">my account</a></li>
 			                </ul><!--/.nav -->
 			           	</div>
